@@ -80,13 +80,17 @@ if [ -n "$CHANGED_FILES" ]; then
     echo "Files changed:"
     echo "$CHANGED_FILES"
 
-    # Check if the post-sync script exists
-    if [ -f "$POST_SYNC_SCRIPT" ]; then
+    # Check if the post-sync script exists and skip if in dry-run mode
+    if [ -f "$POST_SYNC_SCRIPT" ] && [ "$DRY_RUN_MODE" -eq 0 ]; then
         echo "Executing post-sync script: $POST_SYNC_SCRIPT"
         chmod +x "$POST_SYNC_SCRIPT"  # Ensure it's executable
         bash "$POST_SYNC_SCRIPT"
     else
-        echo "No post-sync script found."
+        if [ "$DRY_RUN_MODE" -eq 1 ]; then
+            echo "Skipping post-sync script in dry-run mode."
+        else
+            echo "No post-sync script found."
+        fi
     fi
 else
     echo "No changes detected. Skipping post-sync script."
