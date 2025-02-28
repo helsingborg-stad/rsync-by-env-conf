@@ -84,7 +84,7 @@ if [ -n "$CHANGED_FILES" ]; then
     if [ -f "$POST_SYNC_SCRIPT" ]; then
         echo "Executing post-sync script: $POST_SYNC_SCRIPT"
         chmod +x "$POST_SYNC_SCRIPT"  # Ensure it's executable
-        "$POST_SYNC_SCRIPT"
+        bash "$POST_SYNC_SCRIPT"
     else
         echo "No post-sync script found."
     fi
